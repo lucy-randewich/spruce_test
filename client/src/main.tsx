@@ -8,11 +8,10 @@ export const Main = () => {
     [undefined, undefined, undefined]
   ])
 
-  // Add a state to track the current player (X or O)
+  // Add a states to track current player, if there is a winner, and if game is over
   const [currentPlayer, setCurrentPlayer] = useState<XorO>('X')
-
-  // Add a state to track whether there is a winner or not
   const [winner, setWinner] = useState<XorO | undefined>(undefined)
+  const [isGameOver, setIsGameOver] = useState<boolean>(false)
 
   // Function to handle clicks on the play board
   const handleClick = (rowIndex: number, colIndex: number) => {
@@ -28,10 +27,12 @@ export const Main = () => {
       })
     )
 
-    // Update board matrix and check for a winner, else switch turn to next player
+    // Update board matrix and check for a winner or game over, else switch turn to next player
     setBoard(newBoard)
     if (checkWinner(newBoard, currentPlayer)) {
       setWinner(currentPlayer)
+    } else if (isBoardFull(newBoard)) {
+      setIsGameOver(true)
     } else {
       setCurrentPlayer(currentPlayer === 'X' ? 'O' : 'X')
     }
@@ -55,12 +56,22 @@ export const Main = () => {
     )
   }
 
+  // Function to check if the board is full 
+  const isBoardFull = (board: (XorO | undefined)[][]): boolean => {
+    return board.every(row => row.every(cell => cell !== undefined))
+  }
+
+
   return (
     <div className='flex flex-col mt-10 items-center gap-10'>
       <div className='font-bold text-2xl'>Tic Tac Toe</div>
       {winner ? (
         <div className='text-2xl font-bold'>
           Player {winner} wins!
+        </div>
+      ) : isGameOver ? (
+        <div className='text-2xl font-bold'>
+          Game Over!
         </div>
       ) : (
         <div className='flex flex-col gap-1'>
