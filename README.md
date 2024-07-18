@@ -1,39 +1,25 @@
 
 # Tic-Tac-Toe
-Here is my quick solution to Problem 1 and Problem 2.
+A simple implementation of the Tic-Tac-Toe game as outlined [here](https://en.wikipedia.org/wiki/Tic-tac-toe)
 
 ![Gameplay example GIF](gameplay.gif)
 
-## Problems
-### Problem 1
-We have started a basic game of Tic-Tac-Toe as outlined [here](https://en.wikipedia.org/wiki/Tic-tac-toe) but we don't have anyone good enough to code to finish it! 
-- Please implement a complete basic game of Tic-Tac-Toe
-- Please use React and TypeScript throughout, if you know TailwindCSS please expand on what is already provided, otherwise it is fine to use raw styling 
-- Both players will play out of the same application, it is sufficient to just switch the current player each time a move is played
-- Once a game is completed, I should be able to start another game 
+## Gameplay
+Both players play out of the same application, the play switches between players each time a move is played. The board can be scaled between sizes 3x3 and 15x15 as specified by the user before the game begins. Once the game is completed, you can start another game. 
+The player stats are stored and displayed. 
 
-
-### Problem 2
-We are bored with the basic game now, can you make it so the board can be scaled to any size? 
-- Add some kind of input which allows me to change the board size
-- The board size should be a number between 3 and 15 
-
-### Problem 3
-We want to store game results in a database.
-- create a simple backend server (using a simple generator provided by your IDE is fine)
-- use any SQL/noSQL database to store the results
-- return simple stats back to the front-end: number of win/losses for each player.
-
-Simplification for the task:
-- do not use database migration tools, just an SQL or other script to create tables is fine
-- add comments about what you were thinking about but didn’t implement because of restrictions
-- host the project on your local machine, optional hosting in a public place is fine
-- optionally create a Dockerfile to build both back-end and front-end. Do not create any deployment scripts, if it's not necessary.
-- optional tests are welcome
-
-
-## Quickstart
+## Setup guide
+### To start the game
 - Make sure you have **node** installed
 - `cd client`
 - `npm i`
 - `npm start`
+### To start the server
+- `cd server`
+- `node server.js`
+
+## Implementation
+The front end and logic of the game is written in `Typescript` with `React`, using `Tailwind` for styling. The results of the game are stored in a `MySql` database which is served with a `node.js` server. 
+
+## Time restrictions
+There is very minimal error-checking, for example if the server is not running then the react app will crash. There is also no testing, an optimal solution would contain both unit tests and integration tests. 
