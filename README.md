@@ -1,6 +1,8 @@
 
 # Tic-Tac-Toe
-The below problems are to allow us a glimpse into your problem solving ability, style and current skill set. Please do problem 1, and optionally problem 2 or 3 depending on where you are most comfortable. We expect this test to take 2-3 hours, if you find yourself spending more than this do not aim to solve all 3 problems! We will not be judging based on number of problems completed only the style and thought process.
+Here is my quick solution to Problem 1 and Problem 2.
+
+![Gameplay example GIF](gameplay.gif)
 
 ## Problems
 ### Problem 1
