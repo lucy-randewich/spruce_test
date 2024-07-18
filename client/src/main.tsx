@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { XorO } from './types'
 
 export const Main = () => {
@@ -8,6 +8,14 @@ export const Main = () => {
   const [currentPlayer, setCurrentPlayer] = useState<XorO>('X')
   const [winner, setWinner] = useState<XorO | undefined>(undefined)
   const [isGameOver, setIsGameOver] = useState<boolean>(false)
+  const [stats, setStats] = useState<{ name: string, wins: number, losses: number }[]>([])
+
+  // Fetch player stats from the backend when the component mounts
+  useEffect(() => {
+    fetch('http://localhost:3000/stats')
+      .then(response => response.json())
+      .then(data => setStats(data.players))
+  }, [])
 
   // Use map function to generate board of given size
   function generateBoard(size: number): (XorO | undefined)[][] {
@@ -31,12 +39,11 @@ export const Main = () => {
     setIsGameOver(false)
   }
 
-
   // Function to handle clicks on the play board
   const handleClick = (rowIndex: number, colIndex: number) => {
     if (board[rowIndex][colIndex] !== undefined) return
 
-    // `Use map function to create new board with X or O in the clicked cell`
+    // Use map function to create new board with X or O in the clicked cell
     const newBoard = board.map((row, rIdx) =>
       row.map((col, cIdx) => {
         if (rIdx === rowIndex && cIdx === colIndex) {
@@ -50,6 +57,8 @@ export const Main = () => {
     setBoard(newBoard)
     if (checkWinner(newBoard, currentPlayer)) {
       setWinner(currentPlayer)
+      updateStats(currentPlayer, 'win')
+      updateStats(currentPlayer === 'X' ? 'O' : 'X', 'loss')
     } else if (isBoardFull(newBoard)) {
       setIsGameOver(true)
     } else {
@@ -77,7 +86,7 @@ export const Main = () => {
     return patterns
   }
 
-  // Function to check if the board is full 
+  // Function to check if the board is full
   const isBoardFull = (board: (XorO | undefined)[][]): boolean => {
     return board.every(row => row.every(cell => cell !== undefined))
   }
@@ -87,6 +96,21 @@ export const Main = () => {
     return board.every(row => row.every(cell => cell === undefined))
   }
 
+  // Function to update player wins in database
+  const updateStats = (player: XorO, result: 'win' | 'loss') => {
+    fetch('http://localhost:3000/update', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ player: `Player ${player}`, result })
+    })
+    .then(response => response.json())
+    .then(() => {
+      // Refresh stats after updating
+      fetch('http://localhost:3000/stats')
+        .then(response => response.json())
+        .then(data => setStats(data.players))
+    })
+  }
 
   return (
     <div className='flex flex-col items-center justify-center min-h-screen bg-customGreen p-4'>
@@ -104,6 +128,13 @@ export const Main = () => {
             <option key={index} value={index + 3}>{index + 3}x{index + 3}</option>
           ))}
         </select>
+      </div>
+      <div className='mb-4 text-white'>
+        <ul>
+          {stats.map(stat => (
+            <li key={stat.name}>{stat.name}: {stat.wins} Wins</li>
+          ))}
+        </ul>
       </div>
       {winner || isGameOver ? (
         <div className='flex flex-col items-center gap-4'>
