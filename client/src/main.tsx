@@ -8,6 +8,17 @@ export const Main = () => {
     [undefined, undefined, undefined]
   ])
 
+  const resetGame = () => {
+    setBoard([
+      [undefined, undefined, undefined],
+      [undefined, undefined, undefined],
+      [undefined, undefined, undefined]
+    ])
+    setCurrentPlayer('X')
+    setWinner(undefined)
+    setIsGameOver(false)
+  }  
+
   // Add a states to track current player, if there is a winner, and if game is over
   const [currentPlayer, setCurrentPlayer] = useState<XorO>('X')
   const [winner, setWinner] = useState<XorO | undefined>(undefined)
@@ -65,13 +76,23 @@ export const Main = () => {
   return (
     <div className='flex flex-col mt-10 items-center gap-10'>
       <div className='font-bold text-2xl'>Tic Tac Toe</div>
-      {winner ? (
-        <div className='text-2xl font-bold'>
-          Player {winner} wins!
-        </div>
-      ) : isGameOver ? (
-        <div className='text-2xl font-bold'>
-          Game Over!
+      {winner || isGameOver ? (
+        <div className='flex flex-col items-center gap-4'>
+          {winner ? (
+            <div className='text-2xl font-bold'>
+              Player {winner} wins!
+            </div>
+          ) : (
+            <div className='text-2xl font-bold'>
+              Game Over!
+            </div>
+          )}
+          <button
+            onClick={resetGame}
+            className='mt-4 px-4 py-2 bg-blue-500 text-white font-bold rounded'
+          >
+            Play Again
+          </button>
         </div>
       ) : (
         <div className='flex flex-col gap-1'>
