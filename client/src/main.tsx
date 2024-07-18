@@ -74,22 +74,22 @@ export const Main = () => {
 
 
   return (
-    <div className='flex flex-col mt-10 items-center gap-10'>
-      <div className='font-bold text-2xl'>Tic Tac Toe</div>
+    <div className='flex flex-col items-center justify-center min-h-screen bg-customGreen p-4'>
+      <div className='font-serif font-bold text-3xl mb-6 text-white'>Tic Tac Toe</div>
       {winner || isGameOver ? (
         <div className='flex flex-col items-center gap-4'>
           {winner ? (
-            <div className='text-2xl font-bold'>
+            <div className='text-2xl font-bold text-green-200'>
               Player {winner} wins!
             </div>
           ) : (
-            <div className='text-2xl font-bold'>
+            <div className='text-2xl font-bold text-red-200'>
               Game Over!
             </div>
           )}
           <button
             onClick={resetGame}
-            className='mt-4 px-4 py-2 bg-blue-500 text-white font-bold rounded'
+            className='mt-4 px-4 py-2 bg-customLightGreen hover:bg-green-700 text-black font-bold rounded'
           >
             Play Again
           </button>
@@ -101,7 +101,7 @@ export const Main = () => {
               {row.map((column, colIndex) => (
                 <div
                   key={colIndex}
-                  className='border-2 border-gray-900 w-10 h-10 cursor-pointer items-center justify-center text-2xl font-bold flex'
+                  className='border-2 border-gray-900 w-16 h-16 cursor-pointer items-center justify-center text-2xl font-bold flex bg-white hover:bg-gray-200'
                   onClick={() => handleClick(rowIndex, colIndex)}
                 >
                   {column}
